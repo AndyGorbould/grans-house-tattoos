@@ -36,7 +36,10 @@
   --shadow-md:  0 8px 36px rgba(91,138,181,0.2);
 }
 
-html { scroll-behavior: smooth; }
+html { 
+  scroll-behavior: smooth; 
+  overflow-x: hidden;
+}
 body {
   font-family: var(--font-sans);
   background-color: var(--cream);
@@ -359,31 +362,7 @@ a   { color: inherit; text-decoration: none; }
   flex-wrap: wrap;
 }
 
-.hero-scroll-hint {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.4rem;
-  opacity: 0.45;
-  animation: fadeIn 1.5s ease 1.2s both;
-}
-.hero-scroll-hint span {
-  font-size: 0.62rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--blue-dark);
-}
-.scroll-line {
-  width: 1px; height: 36px;
-  background: linear-gradient(to bottom, var(--blue), transparent);
-  animation: scrollPulse 2s ease-in-out infinite;
-}
-
-/* ---------- BUTTONS ---------- */
+/* ---------- GINGHAM DIVIDER ---------- */
 .btn {
   display: inline-block;
   font-family: var(--font-serif);
@@ -900,7 +879,7 @@ a   { color: inherit; text-decoration: none; }
 .btg-lamp {
   width: 1440px;
   top: -240px;
-  right: -580px;
+  right: -350px;
   transform: rotate(-25deg);
   mix-blend-mode: normal;
 }
@@ -936,7 +915,7 @@ a   { color: inherit; text-decoration: none; }
   .btg-teapot--hero    { width: 420px; right: -120px; top: 1.5rem; }
   .btg-teapot--about   { width: 260px; left: -80px; }
   .btg-teapot--booking { width: 240px; left: -60px; }
-  .btg-lamp            { width: 900px; right: -360px; top: -180px; }
+  .btg-lamp            { width: 900px; right: -250px; top: -180px; }
   .btg-couch           { width: 240px; left: -40px; bottom: -80px; }
   .btg-soup            { width: 440px; left: -180px; top: -100px; }
   .btg-irnbru          { width: 480px; right: -150px; }
@@ -949,7 +928,7 @@ a   { color: inherit; text-decoration: none; }
   .btg-teapot--hero    { width: 310px; right: -80px; top: 1rem; }
   .btg-teapot--about   { width: 190px;  left: -95px; }
   .btg-teapot--booking { width: 180px;  left: -80px; top: -30px; }
-  .btg-lamp            { width: 600px; right: -240px; top: -120px; }
+  .btg-lamp            { width: 600px; right: -180px; top: -120px; }
   .btg-couch           { width: 180px; left: -50px; bottom: -50px; }
   .btg-soup            { width: 320px; left: -140px; top: -80px; }
   .btg-irnbru          { width: 288px; right: -100px; }
@@ -967,10 +946,6 @@ a   { color: inherit; text-decoration: none; }
 @keyframes floatIn {
   from { opacity: 0; transform: scale(0.88) translateY(12px); }
   to   { opacity: 1; transform: scale(1) translateY(0); }
-}
-@keyframes scrollPulse {
-  0%, 100% { transform: scaleY(1); opacity: 1; }
-  50%       { transform: scaleY(0.55); opacity: 0.35; }
 }
 
 /* Intersection observer reveal */
