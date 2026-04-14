@@ -79,10 +79,14 @@
   const success = document.getElementById('form-success');
   const submitBtn = document.getElementById('submit-booking');
 
-  form.addEventListener('submit', e => {
+  form.addEventListener('submit', async e => {
     e.preventDefault();
-    const name  = form.querySelector('#name').value.trim();
-    const email = form.querySelector('#email').value.trim();
+    
+    // Validation
+    const nameInput  = form.querySelector('#name');
+    const emailInput = form.querySelector('#email');
+    const name       = nameInput.value.trim();
+    const email      = emailInput.value.trim();
 
     if (!name || !email) {
       shakeField(!name ? '#name' : '#email');
@@ -92,13 +96,37 @@
     submitBtn.textContent = 'Sending…';
     submitBtn.disabled = true;
 
-    // Simulate async send
-    setTimeout(() => {
-      success.classList.add('is-visible');
-      form.reset();
+    // Prepare data
+    const formData = new FormData(form);
+    
+    try {
+      const response = await fetch("https://formspree.io/f/gran@tattoosatgranshouse.com", {
+        method: "POST",
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (response.ok) {
+        success.classList.add('is-visible');
+        form.reset();
+        // Hide success message after 5 seconds
+        setTimeout(() => success.classList.remove('is-visible'), 5000);
+      } else {
+        const data = await response.json();
+        if (Object.hasOwn(data, 'errors')) {
+          alert(data["errors"].map(error => error["message"]).join(", "));
+        } else {
+          alert("Oops! There was a problem submitting your form. Please try again.");
+        }
+      }
+    } catch (error) {
+      alert("Oops! There was a problem submitting your form. Please check your connection and try again.");
+    } finally {
       submitBtn.textContent = 'Send Enquiry';
       submitBtn.disabled = false;
-    }, 1200);
+    }
   });
 
   function shakeField(selector) {
