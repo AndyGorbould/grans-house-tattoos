@@ -616,7 +616,7 @@
         sizing, placement and pricing.</p>
 
 
-      <form action="https://formsubmit.co/gran@tattoosatgranshouse.com" method="POST">
+      <form action="https://formsubmit.co/gran@tattoosatgranshouse.com" method="POST" enctype="multipart/form-data">
 
         <!-- Formspree configuration -->
         <input type="hidden" name="_subject" value="New Tattoo Enquiry – Gran's House">
@@ -701,6 +701,12 @@
           <label for="description">Describe Your Idea</label>
           <textarea id="description" name="description" rows="5"
             placeholder="Tell us about your concept, references, and any relevant details…" required></textarea>
+        </div>
+
+        <!-- Reference Pictures (Full Width) -->
+        <div class="form-group full">
+          <label for="attachment">Upload reference pictures (Max file size: 10MB)</label>
+          <input type="file" id="attachment" name="attachment" accept="image/*" multiple />
         </div>
 
         <div class="form-submit">
