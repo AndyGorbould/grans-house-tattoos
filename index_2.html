@@ -242,7 +242,11 @@
           </div>
           <div class="artist-info">
             <h3>Lily</h3>
-            <p class="artist-bio">Hey! I'm Lily, originally from New Zealand and now based right here in Edinburgh. I specialise in linocut and etching style tattoos, focusing on bold lines and rich textures that really stand out.<br><br>I love bringing the classic feel of printmaking into my tattoo work, giving every piece a unique, hand-crafted look. When I'm not in the studio, you'll probably find me exploring the city or working on new designs.<br><br>Can't wait to see you at Gran's House!</p>
+            <p class="artist-bio">Hey! I'm Lily, originally from New Zealand and now based right here in Edinburgh. I
+              specialise in linocut and etching style tattoos, focusing on bold lines and rich textures that really
+              stand out.<br><br>I love bringing the classic feel of printmaking into my tattoo work, giving every piece
+              a unique, hand-crafted look. When I'm not in the studio, you'll probably find me exploring the city or
+              working on new designs.<br><br>Can't wait to see you at Gran's House!</p>
             <a href="https://www.instagram.com/lily_of_eden_" target="_blank" rel="noopener"
               class="artist-insta">@lily_of_eden_</a>
           </div>
@@ -620,18 +624,21 @@
   <!-- BOOKING -->
   <section class="section booking-section" id="booking">
     <!-- BREAKING THE GRID: teapot 3 -->
-    <img src="assets/images/side-elements/teapot-3.png" class="btg-teapot btg-teapot--booking" aria-hidden="true" alt="" />
+    <img src="assets/images/side-elements/teapot-3.png" class="btg-teapot btg-teapot--booking" aria-hidden="true"
+      alt="" />
     <div class="container booking-container">
       <div class="section-label">Book With Us</div>
       <h2 class="section-title">Request an Appointment</h2>
-      
+
       <p class="section-intro">Fill in the form below and we'll be in touch within 48 hours to discuss your idea,
         sizing, placement and pricing.</p>
 
-      <form action="https://formsubmit.co/gorbould@mail.com" method="POST" enctype="multipart/form-data">
+      <form action="https://api.web3forms.com/submit" method="POST">
 
-        <!-- Formspree configuration -->
-        <input type="hidden" name="_subject" value="New Tattoo Enquiry – Gran's House">
+
+        <!-- web3form configuration -->
+        <input type="hidden" name="access_key" value="a19771ef-86ab-4316-a47e-9a50d429c43d">
+        <input type="hidden" name="subject" value="New Tattoo Enquiry – Gran's House">
 
         <!-- Row 1: Name and Email -->
         <div class="form-row">
@@ -703,16 +710,10 @@
           </div>
         </div>
 
-        <!-- Row 5: Instagram and File Upload -->
-        <div class="form-row">
-          <div class="form-group">
-            <label for="instagram">Instagram Username/Link</label>
-            <input type="text" id="instagram" name="instagram" placeholder="@username or link" />
-          </div>
-          <div class="form-group">
-            <label for="reference_pictures">Upload reference pictures (Max 10MB)</label>
-            <input type="file" id="reference_pictures" name="reference_pictures" accept="image/*" multiple />
-          </div>
+        <!-- Row 5: Instagram -->
+        <div class="form-group">
+          <label for="instagram">Instagram Username/Link</label>
+          <input type="text" id="instagram" name="instagram" placeholder="@username or link" />
         </div>
 
         <!-- Description (Full Width) -->
