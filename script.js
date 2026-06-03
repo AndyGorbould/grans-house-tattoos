@@ -97,6 +97,19 @@
       submitBtn.textContent = 'Sending…';
       submitBtn.disabled = true;
 
+      // Validate reference image file size client-side if file input exists (EmailJS limit is typically 500KB on Personal)
+      const fileInput = form.querySelector('input[type="file"]');
+      if (fileInput && fileInput.files && fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        const maxSize = 500 * 1024; // 500KB
+        if (file.size > maxSize) {
+          alert(`The selected reference image "${file.name}" is too large (${Math.round(file.size / 1024)}KB). Please upload an image smaller than 500KB to ensure successful delivery via EmailJS.`);
+          submitBtn.textContent = 'Send Enquiry';
+          submitBtn.disabled = false;
+          return;
+        }
+      }
+
       // Extract EmailJS configurations if they exist
       const emailjsService = form.getAttribute('data-emailjs-service');
       const emailjsTemplate = form.getAttribute('data-emailjs-template');
