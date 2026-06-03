@@ -79,55 +79,91 @@
   const success = document.getElementById('form-success');
   const submitBtn = document.getElementById('submit-booking');
 
-  form.addEventListener('submit', async e => {
-    e.preventDefault();
-    
-    // Validation
-    const nameInput  = form.querySelector('#name');
-    const emailInput = form.querySelector('#email');
-    const name       = nameInput.value.trim();
-    const email      = emailInput.value.trim();
-
-    if (!name || !email) {
-      shakeField(!name ? '#name' : '#email');
-      return;
-    }
-
-    submitBtn.textContent = 'Sending…';
-    submitBtn.disabled = true;
-
-    // Prepare data
-    const formData = new FormData(form);
-    
-    try {
-      const response = await fetch("https://formspree.io/f/gran@tattoosatgranshouse.com", {
-        method: "POST",
-        body: formData,
-        headers: {
-          'Accept': 'application/json'
-        }
-      });
+  if (form) {
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
       
-      if (response.ok) {
-        success.classList.add('is-visible');
-        form.reset();
-        // Hide success message after 5 seconds
-        setTimeout(() => success.classList.remove('is-visible'), 5000);
+      // Validation
+      const nameInput  = form.querySelector('#name');
+      const emailInput = form.querySelector('#email');
+      const name       = nameInput.value.trim();
+      const email      = emailInput.value.trim();
+
+      if (!name || !email) {
+        shakeField(!name ? '#name' : '#email');
+        return;
+      }
+
+      submitBtn.textContent = 'Sending…';
+      submitBtn.disabled = true;
+
+      // Extract EmailJS configurations if they exist
+      const emailjsService = form.getAttribute('data-emailjs-service');
+      const emailjsTemplate = form.getAttribute('data-emailjs-template');
+      const emailjsPublicKey = form.getAttribute('data-emailjs-publickey');
+
+      if (emailjsService && emailjsTemplate && emailjsPublicKey) {
+        // Prepare data for EmailJS API
+        const formData = new FormData(form);
+        formData.append('service_id', emailjsService);
+        formData.append('template_id', emailjsTemplate);
+        formData.append('user_id', emailjsPublicKey);
+
+        try {
+          const response = await fetch('https://api.emailjs.com/api/v1.0/email/send-form', {
+            method: 'POST',
+            body: formData
+          });
+
+          if (response.ok) {
+            success.classList.add('is-visible');
+            form.reset();
+            setTimeout(() => success.classList.remove('is-visible'), 5000);
+          } else {
+            const errText = await response.text();
+            throw new Error(errText || 'Failed to submit form to EmailJS');
+          }
+        } catch (error) {
+          console.error(error);
+          alert("Oops! There was a problem submitting your form via EmailJS. Please check your configuration and try again.");
+        } finally {
+          submitBtn.textContent = 'Send Enquiry';
+          submitBtn.disabled = false;
+        }
       } else {
-        const data = await response.json();
-        if (Object.hasOwn(data, 'errors')) {
-          alert(data["errors"].map(error => error["message"]).join(", "));
-        } else {
-          alert("Oops! There was a problem submitting your form. Please try again.");
+        // Fallback to Formspree
+        const formData = new FormData(form);
+        try {
+          const response = await fetch("https://formspree.io/f/gran@tattoosatgranshouse.com", {
+            method: "POST",
+            body: formData,
+            headers: {
+              'Accept': 'application/json'
+            }
+          });
+          
+          if (response.ok) {
+            success.classList.add('is-visible');
+            form.reset();
+            // Hide success message after 5 seconds
+            setTimeout(() => success.classList.remove('is-visible'), 5000);
+          } else {
+            const data = await response.json();
+            if (Object.hasOwn(data, 'errors')) {
+              alert(data["errors"].map(error => error["message"]).join(", "));
+            } else {
+              alert("Oops! There was a problem submitting your form. Please try again.");
+            }
+          }
+        } catch (error) {
+          alert("Oops! There was a problem submitting your form. Please check your connection and try again.");
+        } finally {
+          submitBtn.textContent = 'Send Enquiry';
+          submitBtn.disabled = false;
         }
       }
-    } catch (error) {
-      alert("Oops! There was a problem submitting your form. Please check your connection and try again.");
-    } finally {
-      submitBtn.textContent = 'Send Enquiry';
-      submitBtn.disabled = false;
-    }
-  });
+    });
+  }
 
   function shakeField(selector) {
     const el = form.querySelector(selector);
