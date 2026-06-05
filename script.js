@@ -97,6 +97,14 @@
       submitBtn.textContent = 'Sending…';
       submitBtn.disabled = true;
 
+      // Check if Google Forms action is used
+      const formAction = form.getAttribute('action');
+      if (formAction && formAction.includes('docs.google.com/forms')) {
+        window.submitted = true;
+        form.submit();
+        return;
+      }
+
       // Validate reference image file size client-side if file input exists (EmailJS limit is typically 500KB on Personal)
       const fileInput = form.querySelector('input[type="file"]');
       if (fileInput && fileInput.files && fileInput.files.length > 0) {
@@ -176,6 +184,21 @@
         }
       }
     });
+
+    // Handle Google Forms submit feedback via hidden iframe
+    const iframe = document.getElementById('google-forms-iframe');
+    if (iframe) {
+      iframe.addEventListener('load', () => {
+        if (window.submitted) {
+          success.classList.add('is-visible');
+          form.reset();
+          submitBtn.textContent = 'Send Enquiry';
+          submitBtn.disabled = false;
+          window.submitted = false;
+          setTimeout(() => success.classList.remove('is-visible'), 5000);
+        }
+      });
+    }
   }
 
   function shakeField(selector) {
