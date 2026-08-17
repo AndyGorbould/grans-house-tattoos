@@ -105,16 +105,24 @@
         return;
       }
 
-      // Validate reference image file size client-side if file input exists (EmailJS limit is typically 500KB on Personal)
+      // Validate reference image files client-side
       const fileInput = form.querySelector('input[type="file"]');
       if (fileInput && fileInput.files && fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        const maxSize = 500 * 1024; // 500KB
-        if (file.size > maxSize) {
-          alert(`The selected reference image "${file.name}" is too large (${Math.round(file.size / 1024)}KB). Please upload an image smaller than 500KB to ensure successful delivery via EmailJS.`);
+        if (fileInput.files.length > 5) {
+          alert('You can upload a maximum of 5 files.');
           submitBtn.textContent = 'Send Enquiry';
           submitBtn.disabled = false;
           return;
+        }
+        const maxSize = 10 * 1024 * 1024; // 10MB
+        for (let i = 0; i < fileInput.files.length; i++) {
+          const file = fileInput.files[i];
+          if (file.size > maxSize) {
+            alert(`The selected file "${file.name}" is too large (${(file.size / (1024 * 1024)).toFixed(1)}MB). Maximum allowed size is 10 MB per file.`);
+            submitBtn.textContent = 'Send Enquiry';
+            submitBtn.disabled = false;
+            return;
+          }
         }
       }
 
@@ -185,6 +193,55 @@
       }
     });
 
+    // Handle file upload zone & preview
+    const fileDropZone = document.getElementById('file-drop-zone');
+    const fileUploadInput = document.getElementById('reference-images');
+    const filePreview = document.getElementById('file-upload-preview');
+
+    if (fileDropZone && fileUploadInput && filePreview) {
+      const updateFilePreview = () => {
+        filePreview.innerHTML = '';
+        const files = Array.from(fileUploadInput.files || []);
+        if (files.length > 5) {
+          alert('You can select a maximum of 5 files.');
+          fileUploadInput.value = '';
+          return;
+        }
+        files.forEach((file) => {
+          const tag = document.createElement('span');
+          tag.className = 'file-tag';
+          const sizeKb = file.size < 1024 * 1024 
+            ? `${Math.round(file.size / 1024)} KB` 
+            : `${(file.size / (1024 * 1024)).toFixed(1)} MB`;
+          tag.textContent = `📎 ${file.name} (${sizeKb})`;
+          filePreview.appendChild(tag);
+        });
+      };
+
+      fileUploadInput.addEventListener('change', updateFilePreview);
+
+      ['dragenter', 'dragover'].forEach(eventName => {
+        fileDropZone.addEventListener(eventName, e => {
+          e.preventDefault();
+          fileDropZone.classList.add('is-dragover');
+        });
+      });
+
+      ['dragleave', 'drop'].forEach(eventName => {
+        fileDropZone.addEventListener(eventName, e => {
+          e.preventDefault();
+          fileDropZone.classList.remove('is-dragover');
+        });
+      });
+
+      fileDropZone.addEventListener('drop', e => {
+        if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+          fileUploadInput.files = e.dataTransfer.files;
+          updateFilePreview();
+        }
+      });
+    }
+
     // Handle Google Forms submit feedback via hidden iframe
     const iframe = document.getElementById('google-forms-iframe');
     if (iframe) {
@@ -192,6 +249,7 @@
         if (window.submitted) {
           success.classList.add('is-visible');
           form.reset();
+          if (filePreview) filePreview.innerHTML = '';
           submitBtn.textContent = 'Send Enquiry';
           submitBtn.disabled = false;
           window.submitted = false;
