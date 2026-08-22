@@ -343,117 +343,254 @@
       <form action="" method="POST" class="booking-form" id="booking-form" enctype="multipart/form-data" novalidate>
         <input type="hidden" name="_subject" value="New Tattoo Enquiry – Gran's House">
 
+        <!-- Name & Email -->
         <div class="form-row">
           <div class="form-group">
             <label for="name">Your Name</label>
             <input type="text" id="name" name="name" placeholder="e.g. Morag MacPherson" required />
           </div>
           <div class="form-group">
-            <label for="email">Email Address</label>
+            <label for="email">Your Email</label>
             <input type="email" id="email" name="email" placeholder="you@example.com" required />
           </div>
         </div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label for="instagram">Instagram Username/Link</label>
-            <input type="text" id="instagram" name="instagram" placeholder="@username or link" />
+        <!-- Over 18 -->
+        <div class="form-group full">
+          <label class="form-label">Are you over 18?</label>
+          <div class="choice-grid choice-grid--2" role="radiogroup" aria-label="Are you over 18?">
+            <label class="choice-card" for="over18-yes">
+              <input type="radio" id="over18-yes" name="over_18" value="Yes" required />
+              <span class="choice-indicator--radio"></span>
+              <span class="choice-text">Yes</span>
+            </label>
+            <label class="choice-card" for="over18-no">
+              <input type="radio" id="over18-no" name="over_18" value="No" checked />
+              <span class="choice-indicator--radio"></span>
+              <span class="choice-text">No</span>
+            </label>
           </div>
-          <div class="form-group">
-            <label for="artist">Select an Artist</label>
-            <select id="artist" name="artist">
-              <option value="">Select an artist…</option>
-              <option>Chloé</option>
-              <option>Alba</option>
-              <option>Jamie</option>
-              <option>Emily</option>
-              <option>Lily</option>
-              <option>Not sure / Please recommend</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="size">Approximate Size (inches)</label>
-            <input type="text" id="size" name="size" placeholder="e.g. 3x3 inches, palm size…" />
-          </div>
-          <div class="form-group">
-            <label for="placement">Placement</label>
-            <input type="text" id="placement" name="placement" placeholder="e.g. Upper arm, calf, chest…" />
+          <div class="under18-notice" id="under18-notice">
+            ✦ You must be 18 or older to get tattooed in Scotland. We cannot accept booking requests for anyone under
+            18.
           </div>
         </div>
 
-        <div class="form-row">
+        <!-- Remaining Questions (Visible only when Over 18 is Yes) -->
+        <div id="over18-questions">
+          <!-- Instagram Handle -->
           <div class="form-group full">
-            <label for="style">Tattoo Style</label>
-            <select id="style" name="style">
-              <option value="">Select a style…</option>
-              <option>Illustrative</option>
-              <option>Neo-Tribal</option>
-              <option>Realism/Micro-Realism</option>
-              <option>Handpoke</option>
-              <option>Abstract</option>
-              <option>Cover-Up/Rework</option>
-              <option>Other / Not Sure</option>
-            </select>
+            <label for="instagram">Your Instagram handle (in case we reach out there)</label>
+            <input type="text" id="instagram" name="instagram" placeholder="@yourhandle or profile link" />
           </div>
-        </div>
 
-        <div class="form-group full">
-          <label class="form-label" id="preferred-time-label">Select preferred time of day for appointment</label>
-          <div class="radio-options-grid" role="radiogroup" aria-labelledby="preferred-time-label">
-            <label class="radio-card" for="time-early">
-              <input type="radio" id="time-early" name="preferred_time" value="Early (11am - 3pm)" />
-              <span class="radio-indicator"></span>
-              <span class="radio-text">Early (11am - 3pm)</span>
-            </label>
-            <label class="radio-card" for="time-late">
-              <input type="radio" id="time-late" name="preferred_time" value="Late (3pm - 7pm)" />
-              <span class="radio-indicator"></span>
-              <span class="radio-text">Late (3pm - 7pm)</span>
-            </label>
-            <label class="radio-card" for="time-allday">
-              <input type="radio" id="time-allday" name="preferred_time" value="All Day (Flexible)" checked />
-              <span class="radio-indicator"></span>
-              <span class="radio-text">All Day (Flexible)</span>
-            </label>
-          </div>
-        </div>
-
-        <div class="form-group full">
-          <label for="description">Describe Your Idea</label>
-          <textarea id="description" name="description" rows="5"
-            placeholder="Tell us about your concept, references, and any relevant details…"></textarea>
-        </div>
-
-        <div class="form-group full">
-          <label for="reference-images">Reference Images</label>
-          <div class="file-upload-zone" id="file-drop-zone">
-            <input type="file" id="reference-images" name="reference_images"
-              accept="image/*,.pdf,.doc,.docx,.png,.jpg,.jpeg,.webp,.heic,application/pdf" multiple
-              class="file-upload-input" />
-            <div class="file-upload-content">
-              <div class="file-upload-icon-wrap" aria-hidden="true">
-                <svg class="file-upload-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                  <polyline points="17 8 12 3 7 8"></polyline>
-                  <line x1="12" y1="3" x2="12" y2="15"></line>
-                </svg>
-              </div>
-              <div class="file-upload-text">
-                <span class="file-upload-prompt"><strong>Choose files</strong> or drag &amp; drop here</span>
-                <span class="file-upload-hint">Upload up to 5 supported files: PDF, document, drawing or image. Max 10
-                  MB per file.</span>
-              </div>
+          <!-- Visiting & Conditional Dates -->
+          <div class="form-group full">
+            <label class="form-label">Are you visiting? (for example a holiday)</label>
+            <div class="choice-grid choice-grid--2" role="radiogroup" aria-label="Are you visiting?">
+              <label class="choice-card" for="visiting-yes">
+                <input type="radio" id="visiting-yes" name="is_visiting" value="Yes" />
+                <span class="choice-indicator--radio"></span>
+                <span class="choice-text">Yes</span>
+              </label>
+              <label class="choice-card" for="visiting-no">
+                <input type="radio" id="visiting-no" name="is_visiting" value="No" checked />
+                <span class="choice-indicator--radio"></span>
+                <span class="choice-text">No</span>
+              </label>
             </div>
-            <div class="file-upload-preview" id="file-upload-preview"></div>
+            <div class="visiting-dates-group" id="visiting-dates-container">
+              <label for="visiting-dates">What dates are you visiting? (DD/MM/YYYY - DD/MM/YYYY)</label>
+              <input type="text" id="visiting-dates" name="visiting_dates" placeholder="DD/MM/YYYY - DD/MM/YYYY" />
+            </div>
           </div>
-        </div>
 
-        <div class="form-submit">
-          <button type="submit" class="btn btn-primary" id="submit-booking">Send Enquiry</button>
+          <!-- Cover Up -->
+          <div class="form-group full">
+            <label class="form-label">Are you looking for a cover up?</label>
+            <div class="choice-grid choice-grid--2" role="radiogroup" aria-label="Are you looking for a cover up?">
+              <label class="choice-card" for="coverup-yes">
+                <input type="radio" id="coverup-yes" name="cover_up" value="Yes" />
+                <span class="choice-indicator--radio"></span>
+                <span class="choice-text">Yes</span>
+              </label>
+              <label class="choice-card" for="coverup-no">
+                <input type="radio" id="coverup-no" name="cover_up" value="No" checked />
+                <span class="choice-indicator--radio"></span>
+                <span class="choice-text">No</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Placement & Size -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="placement">Where on your body is it going?</label>
+              <input type="text" id="placement" name="placement" placeholder="e.g. Upper arm, calf, ribs, chest…" />
+            </div>
+            <div class="form-group">
+              <label for="size">Roughly what size in CM / INCHES</label>
+              <input type="text" id="size" name="size" placeholder="please specify: eg. 3x4 inches" />
+            </div>
+          </div>
+
+          <!-- Colour / Black'n'grey -->
+          <div class="form-group full">
+            <label class="form-label">Colour preference</label>
+            <div class="choice-grid choice-grid--2" role="radiogroup" aria-label="Colour preference">
+              <label class="choice-card" for="color-colour">
+                <input type="radio" id="color-colour" name="color_preference" value="Colour" />
+                <span class="choice-indicator--radio"></span>
+                <span class="choice-text">Colour</span>
+              </label>
+              <label class="choice-card" for="color-blackgrey">
+                <input type="radio" id="color-blackgrey" name="color_preference" value="Black'n'grey" checked />
+                <span class="choice-indicator--radio"></span>
+                <span class="choice-text">Black'n'grey</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Style -->
+          <div class="form-group full">
+            <label class="form-label">What style are you looking for?</label>
+            <div class="choice-grid choice-grid--styles" aria-label="What style are you looking for?">
+              <label class="choice-card" for="style-neotribal">
+                <input type="checkbox" id="style-neotribal" name="style" value="Neo Tribal" />
+                <span class="choice-indicator--checkbox"></span>
+                <span class="choice-text">Neo Tribal</span>
+              </label>
+              <label class="choice-card" for="style-realism">
+                <input type="checkbox" id="style-realism" name="style" value="Realism / micro realism" />
+                <span class="choice-indicator--checkbox"></span>
+                <span class="choice-text">Realism / micro realism</span>
+              </label>
+              <label class="choice-card" for="style-handpoke">
+                <input type="checkbox" id="style-handpoke" name="style" value="Handpoke" />
+                <span class="choice-indicator--checkbox"></span>
+                <span class="choice-text">Handpoke</span>
+              </label>
+              <label class="choice-card" for="style-illustrative">
+                <input type="checkbox" id="style-illustrative" name="style" value="Illustrative" />
+                <span class="choice-indicator--checkbox"></span>
+                <span class="choice-text">Illustrative</span>
+              </label>
+              <label class="choice-card" for="style-fineline">
+                <input type="checkbox" id="style-fineline" name="style" value="Fineline" />
+                <span class="choice-indicator--checkbox"></span>
+                <span class="choice-text">Fineline</span>
+              </label>
+              <label class="choice-card" for="style-blackwork">
+                <input type="checkbox" id="style-blackwork" name="style" value="Black work" />
+                <span class="choice-indicator--checkbox"></span>
+                <span class="choice-text">Black work</span>
+              </label>
+              <label class="choice-card" for="style-traditional">
+                <input type="checkbox" id="style-traditional" name="style" value="Traditional" />
+                <span class="choice-indicator--checkbox"></span>
+                <span class="choice-text">Traditional</span>
+              </label>
+              <label class="choice-card" for="style-watercolour">
+                <input type="checkbox" id="style-watercolour" name="style" value="Watercolour" />
+                <span class="choice-indicator--checkbox"></span>
+                <span class="choice-text">Watercolour</span>
+              </label>
+              <label class="choice-card" for="style-lettering">
+                <input type="checkbox" id="style-lettering" name="style" value="Lettering / Script" />
+                <span class="choice-indicator--checkbox"></span>
+                <span class="choice-text">Lettering / Script</span>
+              </label>
+              <label class="choice-card" for="style-coverup">
+                <input type="checkbox" id="style-coverup" name="style" value="Cover up / Rework" />
+                <span class="choice-indicator--checkbox"></span>
+                <span class="choice-text">Cover up / Rework</span>
+              </label>
+              <label class="choice-card" for="style-other">
+                <input type="checkbox" id="style-other" name="style" value="Other / Not sure" />
+                <span class="choice-indicator--checkbox"></span>
+                <span class="choice-text">Other / Not sure</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="form-group full">
+            <label for="description">Please describe your design in as much detail as possible.</label>
+            <textarea id="description" name="description" rows="5"
+              placeholder="Tell us about your concept, references, placement ideas, and any specific details…"></textarea>
+          </div>
+
+          <!-- Preferred Artist -->
+          <div class="form-group full">
+            <label class="form-label">Do you have a preferred artist?</label>
+            <div class="choice-grid choice-grid--artists" role="radiogroup" aria-label="Preferred artist">
+              <label class="choice-card" for="artist-chloe">
+                <input type="radio" id="artist-chloe" name="artist" value="Chloé" />
+                <span class="choice-indicator--radio"></span>
+                <span class="choice-text">Chloé</span>
+              </label>
+              <label class="choice-card" for="artist-alba">
+                <input type="radio" id="artist-alba" name="artist" value="Alba" />
+                <span class="choice-indicator--radio"></span>
+                <span class="choice-text">Alba</span>
+              </label>
+              <label class="choice-card" for="artist-jamie">
+                <input type="radio" id="artist-jamie" name="artist" value="Jamie" />
+                <span class="choice-indicator--radio"></span>
+                <span class="choice-text">Jamie</span>
+              </label>
+              <label class="choice-card" for="artist-lily">
+                <input type="radio" id="artist-lily" name="artist" value="Lily" />
+                <span class="choice-indicator--radio"></span>
+                <span class="choice-text">Lily</span>
+              </label>
+              <label class="choice-card" for="artist-emily">
+                <input type="radio" id="artist-emily" name="artist" value="Emily" />
+                <span class="choice-indicator--radio"></span>
+                <span class="choice-text">Emily</span>
+              </label>
+              <label class="choice-card" for="artist-notsure">
+                <input type="radio" id="artist-notsure" name="artist" value="Not sure / please recommend" checked />
+                <span class="choice-indicator--radio"></span>
+                <span class="choice-text">Not sure / please recommend</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Additional Information -->
+          <div class="form-group full">
+            <label for="additional-info">Any additional information(eg. skin conditions / special accomodations)</label>
+            <textarea id="additional-info" name="additional_info" rows="3"
+              placeholder="e.g. Skin conditions, allergies, access needs, sensory accommodations, etc."></textarea>
+          </div>
+
+          <!-- Reference Images (Up to 3) -->
+          <div class="form-group full">
+            <label for="reference-images">Upload up to 3 images here.</label>
+            <div class="file-upload-zone" id="file-drop-zone">
+              <input type="file" id="reference-images" name="reference_images" accept="image/*,.heic" multiple
+                class="file-upload-input" />
+              <div class="file-upload-content">
+                <div class="file-upload-icon-wrap" aria-hidden="true">
+                  <svg class="file-upload-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                  </svg>
+                </div>
+                <div class="file-upload-text">
+                  <span class="file-upload-prompt"><strong>Choose images</strong> or drag &amp; drop here</span>
+                  <span class="file-upload-hint">Upload up to 3 images here. Max 10 MB per file.</span>
+                </div>
+              </div>
+              <div class="file-upload-preview" id="file-upload-preview"></div>
+            </div>
+          </div>
+
+          <div class="form-submit">
+            <button type="submit" class="btn btn-primary" id="submit-booking">Send Enquiry</button>
+          </div>
         </div>
 
         <div class="form-success" id="form-success" aria-live="polite" style="display: none;">
@@ -462,10 +599,124 @@
       </form>
 
       <script>
-        const WORKER_URL = "https://fom-router.gorbould.workers.dev"; // <-- Replace with your actual Worker URL
+        const WORKER_URL = "https://form-router.gorbould.workers.dev"; // <-- Worker URL
+        window.WORKER_URL = WORKER_URL;
 
+        // Toggle Over 18 questions visibility
+        const over18Yes = document.getElementById("over18-yes");
+        const over18No = document.getElementById("over18-no");
+        const over18Questions = document.getElementById("over18-questions");
+        const under18Notice = document.getElementById("under18-notice");
+
+        function updateOver18Visibility() {
+          if (over18Yes && over18Yes.checked) {
+            if (over18Questions) over18Questions.classList.add("is-visible");
+            if (under18Notice) under18Notice.style.display = "none";
+          } else {
+            if (over18Questions) over18Questions.classList.remove("is-visible");
+            if (under18Notice) under18Notice.style.display = "block";
+          }
+        }
+        if (over18Yes && over18No) {
+          over18Yes.addEventListener("change", updateOver18Visibility);
+          over18No.addEventListener("change", updateOver18Visibility);
+          updateOver18Visibility(); // run on load
+        }
+
+        // Toggle visiting dates
+        const visitingYes = document.getElementById("visiting-yes");
+        const visitingNo = document.getElementById("visiting-no");
+        const visitingContainer = document.getElementById("visiting-dates-container");
+
+        function updateVisitingVisibility() {
+          if (visitingYes && visitingYes.checked) {
+            visitingContainer.classList.add("is-visible");
+          } else if (visitingContainer) {
+            visitingContainer.classList.remove("is-visible");
+          }
+        }
+        if (visitingYes && visitingNo) {
+          visitingYes.addEventListener("change", updateVisitingVisibility);
+          visitingNo.addEventListener("change", updateVisitingVisibility);
+        }
+
+        // File upload handling for up to 3 images
+        const fileDropZone = document.getElementById("file-drop-zone");
+        const fileUploadInput = document.getElementById("reference-images");
+        const filePreview = document.getElementById("file-upload-preview");
+
+        if (fileDropZone && fileUploadInput && filePreview) {
+          const updateFilePreview = () => {
+            filePreview.innerHTML = "";
+            const files = Array.from(fileUploadInput.files || []);
+            if (files.length > 3) {
+              alert("You can select a maximum of 3 images.");
+              fileUploadInput.value = "";
+              return;
+            }
+            files.forEach((file) => {
+              const tag = document.createElement("span");
+              tag.className = "file-tag";
+              const sizeKb = file.size < 1024 * 1024
+                ? Math.round(file.size / 1024) + " KB"
+                : (file.size / (1024 * 1024)).toFixed(1) + " MB";
+              tag.textContent = "📷 " + file.name + " (" + sizeKb + ")";
+              filePreview.appendChild(tag);
+            });
+          };
+
+          fileUploadInput.addEventListener("change", updateFilePreview);
+
+          ["dragenter", "dragover"].forEach(eventName => {
+            fileDropZone.addEventListener(eventName, e => {
+              e.preventDefault();
+              fileDropZone.classList.add("is-dragover");
+            });
+          });
+
+          ["dragleave", "drop"].forEach(eventName => {
+            fileDropZone.addEventListener(eventName, e => {
+              e.preventDefault();
+              fileDropZone.classList.remove("is-dragover");
+            });
+          });
+
+          fileDropZone.addEventListener("drop", e => {
+            if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+              fileUploadInput.files = e.dataTransfer.files;
+              updateFilePreview();
+            }
+          });
+        }
+
+        // Form submission
         document.getElementById("booking-form").addEventListener("submit", async function (e) {
           e.preventDefault();
+
+          const nameInput = this.querySelector('#name');
+          const emailInput = this.querySelector('#email');
+          const name = nameInput ? nameInput.value.trim() : '';
+          const email = emailInput ? emailInput.value.trim() : '';
+
+          if (!name || !email) {
+            alert('Please fill in your name and email address.');
+            return;
+          }
+
+          const fileInput = this.querySelector('input[type="file"]');
+          if (fileInput && fileInput.files && fileInput.files.length > 0) {
+            if (fileInput.files.length > 3) {
+              alert('You can upload a maximum of 3 images.');
+              return;
+            }
+            const maxSize = 10 * 1024 * 1024; // 10MB
+            for (let i = 0; i < fileInput.files.length; i++) {
+              if (fileInput.files[i].size > maxSize) {
+                alert('The file "' + fileInput.files[i].name + '" exceeds the 10 MB limit.');
+                return;
+              }
+            }
+          }
 
           const submitBtn = document.getElementById("submit-booking");
           const successMsg = document.getElementById("form-success");
@@ -485,9 +736,11 @@
 
             if (data.success) {
               this.reset();
-              const preview = document.getElementById("file-upload-preview");
-              if (preview) preview.innerHTML = "";
+              if (filePreview) filePreview.innerHTML = "";
+              updateOver18Visibility();
+              updateVisitingVisibility();
               successMsg.style.display = "block";
+              setTimeout(() => { successMsg.style.display = "none"; }, 6000);
             } else {
               alert("Submission failed: " + (data.error || "Please try again."));
             }

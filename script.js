@@ -81,6 +81,7 @@
 
   if (form) {
     form.addEventListener('submit', async e => {
+      if (window.WORKER_URL) return; // Managed by inline Worker script
       e.preventDefault();
       
       // Validation

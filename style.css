@@ -819,14 +819,26 @@ a   { color: inherit; text-decoration: none; }
 }
 .form-group select option { background: var(--warm-white); }
 
-/* ---------- RADIO BUTTON COMPONENT ---------- */
-.radio-options-grid {
+/* ---------- CHOICE / RADIO / CHECKBOX CARDS ---------- */
+.choice-grid {
   display: grid;
+  gap: 0.65rem;
+  margin-top: 0.2rem;
+}
+.choice-grid--2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.choice-grid--3 {
   grid-template-columns: repeat(3, 1fr);
-  gap: 0.75rem;
-  margin-top: 0.15rem;
+}
+.choice-grid--styles {
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+}
+.choice-grid--artists {
+  grid-template-columns: repeat(3, 1fr);
 }
 
+.form-group .choice-card,
 .form-group .radio-card {
   display: flex;
   flex-direction: row;
@@ -845,11 +857,14 @@ a   { color: inherit; text-decoration: none; }
   font-weight: normal;
 }
 
+.form-group .choice-card:hover,
 .form-group .radio-card:hover {
   background: #edf6fc;
   border-color: var(--blue-muted);
 }
 
+.form-group .choice-card input[type="radio"],
+.form-group .choice-card input[type="checkbox"],
 .form-group .radio-card input[type="radio"] {
   appearance: none;
   -webkit-appearance: none;
@@ -863,6 +878,8 @@ a   { color: inherit; text-decoration: none; }
   pointer-events: none;
 }
 
+/* Radio Indicator */
+.choice-indicator--radio,
 .radio-indicator {
   width: 18px;
   height: 18px;
@@ -876,6 +893,7 @@ a   { color: inherit; text-decoration: none; }
   transition: border-color var(--transition), background-color var(--transition);
 }
 
+.choice-indicator--radio::after,
 .radio-indicator::after {
   content: "";
   width: 8px;
@@ -886,31 +904,119 @@ a   { color: inherit; text-decoration: none; }
   transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* Checkbox Indicator */
+.choice-indicator--checkbox {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 2px solid var(--ink-light);
+  background: var(--warm-white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: border-color var(--transition), background-color var(--transition);
+}
+
+.choice-indicator--checkbox::after {
+  content: "✓";
+  font-size: 11px;
+  font-weight: 900;
+  color: var(--warm-white);
+  line-height: 1;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
+}
+
+/* Checked States */
+.form-group .choice-card:has(input:checked),
 .form-group .radio-card:has(input[type="radio"]:checked) {
   background: var(--warm-white);
   border-color: var(--red);
   box-shadow: 0 2px 12px rgba(217, 53, 53, 0.12);
 }
 
+.form-group .choice-card input[type="radio"]:checked + .choice-indicator--radio,
 .form-group .radio-card input[type="radio"]:checked + .radio-indicator {
   border-color: var(--red);
 }
 
+.form-group .choice-card input[type="radio"]:checked + .choice-indicator--radio::after,
 .form-group .radio-card input[type="radio"]:checked + .radio-indicator::after {
   transform: scale(1);
 }
 
+.form-group .choice-card input[type="checkbox"]:checked + .choice-indicator--checkbox {
+  border-color: var(--red);
+  background: var(--red);
+}
+
+.form-group .choice-card input[type="checkbox"]:checked + .choice-indicator--checkbox::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.form-group .choice-card:has(input:focus-visible),
 .form-group .radio-card:has(input[type="radio"]:focus-visible) {
   outline: 2px solid var(--blue);
   outline-offset: 2px;
 }
 
+.choice-text,
 .radio-text {
   font-family: var(--font-sans);
   font-size: 0.88rem;
   font-weight: 700;
   color: var(--ink);
   line-height: 1.3;
+}
+
+/* Conditional Visiting Group */
+.visiting-dates-group {
+  margin-top: 0.75rem;
+  padding: 1.1rem;
+  background: #edf6fc;
+  border: 1.5px dashed var(--sky-mid);
+  border-radius: var(--radius-sm);
+  display: none;
+  animation: fadeUp 0.3s ease both;
+}
+
+.visiting-dates-group.is-visible {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.visiting-dates-group label {
+  color: var(--ink);
+}
+
+/* Under 18 Notice & Conditional Questions */
+.under18-notice {
+  margin-top: 0.5rem;
+  padding: 1.15rem 1.25rem;
+  background: #fdf2f2;
+  border: 2px solid var(--red-muted);
+  border-radius: var(--radius-sm);
+  color: var(--red);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.5;
+  animation: fadeUp 0.35s ease both;
+}
+
+#over18-questions {
+  display: none;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+#over18-questions.is-visible {
+  display: flex;
+  animation: fadeUp 0.4s ease both;
 }
 
 /* ---------- FILE UPLOAD COMPONENT ---------- */
@@ -1363,7 +1469,11 @@ a   { color: inherit; text-decoration: none; }
 
   .booking-form { padding: 1.5rem; }
   .form-row { grid-template-columns: 1fr; }
-  .radio-options-grid { grid-template-columns: 1fr; }
+  .radio-options-grid,
+  .choice-grid--2,
+  .choice-grid--3,
+  .choice-grid--styles,
+  .choice-grid--artists { grid-template-columns: 1fr; }
 
   .contact-info { grid-template-columns: 1fr; gap: 1.5rem; }
 
